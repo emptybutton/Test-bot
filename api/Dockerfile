@@ -15,4 +15,4 @@ RUN poetry install --no-root
 COPY . .
 
 ENTRYPOINT ["poetry", "run"]
-CMD ["uvicorn", "src.app:app"]
+CMD ["uvicorn", "src.presentation.app:app"]

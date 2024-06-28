@@ -2,7 +2,7 @@ from typing import Optional
 
 import aiohttp
 
-from envs import Env
+from src.periphery.envs import Env
 
 
 async def calculate(a: int, b: int) -> Optional[int]:

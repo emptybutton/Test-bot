@@ -1,6 +1,6 @@
 from typing import Optional
 
-from infrastructure import calculator_gateway
+from src.facades import calculator_gateway
 
 
 async def sumOf(a: int, b: int) -> Optional[int]:

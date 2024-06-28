@@ -2,8 +2,8 @@ from aiogram import Dispatcher
 from aiogram.filters import CommandStart
 from aiogram.types import Message
 
-from presentation.parsers import number_pair_from
-from services import calculating
+from src.presentation.parsers import number_pair_from
+from src.cases import calculating, users
 
 
 dispatcher = Dispatcher()
@@ -11,6 +11,7 @@ dispatcher = Dispatcher()
 
 @dispatcher.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
+    await users.register_user(message.chat.id)
     await message.answer("Привет! Напиши два числа через пробел чтобы суммировать их")
 
 

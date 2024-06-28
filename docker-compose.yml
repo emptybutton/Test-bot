@@ -4,15 +4,37 @@ services:
     build: ./api
     container_name: calculator-api
     restart: unless-stopped
+    depends_on:
+      - redis
+    volumes:
+      - ./api:/calculator
+    environment:
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
     network_mode: host
 
   telegrambot:
     build: ./telegrambot
     container_name: calculator-telegrambot
     restart: unless-stopped
+    depends_on:
+      - postgres
+      - redis
+      - api
+    volumes:
+      - ./telegrambot:/telegrambot
     environment:
       BOT_TOKEN: ${BOT_TOKEN}
       CALCULATOR_URL: http://localhost:8000
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: 5432
+      POSTGRES_ECHO: false
+
     network_mode: host
 
   nginx:
@@ -29,7 +51,7 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_DATABASE: ${POSTGRES_DATABASE}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     network_mode: host
@@ -40,7 +62,7 @@ services:
     container_name: calculator-redis
     network_mode: host
     restart: unless-stopped
-    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+    command: ["redis-server"]
 
 volumes:
   db: null
