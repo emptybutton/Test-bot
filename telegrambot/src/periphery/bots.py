@@ -7,4 +7,4 @@ from src.periphery.envs import Env
 
 _properties = DefaultBotProperties(parse_mode=ParseMode.HTML)
 
-bot = Bot(token="7283006164:AAGqziYkgHOcysW_5GtoR_1jfFb0gtP_bzI", default=_properties)
+bot = Bot(token=Env.bot_token.value, default=_properties)
